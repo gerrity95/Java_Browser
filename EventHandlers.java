@@ -41,6 +41,7 @@ public class EventHandlers {
                             System.out.println("Location loaded + " + webEngine.getLocation());
                             String title = webEngine.getTitle();
                             b_methods.defineTitle(title, stage);
+                            b_methods.resetProgressBar(0, progressBar);
 
                         }
                         else if(newState == Worker.State.FAILED)

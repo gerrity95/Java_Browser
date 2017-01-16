@@ -1,3 +1,4 @@
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
 /**
@@ -8,6 +9,12 @@ public class Browser_Methods {
     public void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
     {
         stage.setTitle(str);
+    }
+
+    public void resetProgressBar(int i, ProgressBar pb)
+    {
+        pb.progressProperty().unbind();
+        pb.setProgress(i);
     }
 
 }
