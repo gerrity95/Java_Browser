@@ -43,7 +43,7 @@ public class EventHandlers {
                             b_methods.defineTitle(title, stage);
 
                         }
-                        else
+                        else if(newState == Worker.State.FAILED)
                         {
                             System.out.println("There is a problem here son");
                         }
