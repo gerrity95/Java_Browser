@@ -3,27 +3,23 @@
  */
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-
 public class Browser_Main extends Application{
 
     static EventHandlers handlers;
+    static Browser_Methods b_methods;
 
     public static void main(String[] args){
          launch();
@@ -33,18 +29,33 @@ public class Browser_Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         handlers = new EventHandlers();
+        b_methods =new Browser_Methods();
 
-        VBox vbox = new VBox(10);
+        //Images for return and go arrows
+        Image arrowRight = new Image(getClass().getResourceAsStream("resources/green_arrow_right.png"));
+        Image arrowLeft = new Image(getClass().getResourceAsStream("resources/green_arrow_left.png"));
 
-        HBox hbox = new HBox(10);
-        hbox.setAlignment(Pos.CENTER_LEFT);
+        VBox vbox1 = new VBox(10);
+        HBox hbox1 = new HBox(10);
 
-        TextField textField = new TextField();
-        Button button = new Button("Go");
+        hbox1.setAlignment(Pos.CENTER_LEFT);
+        Button followUrl = new Button();
+        Button returnPage = new Button();
+        Button savePage = new Button("Save Page");
+
+        returnPage.setGraphic(new ImageView(arrowLeft));
+        followUrl.setGraphic(new ImageView(arrowRight));
+
+        b_methods.setHelp(followUrl, "Go to URL");
+        b_methods.setHelp(returnPage, "Return to previous page");
+        b_methods.setHelp(savePage, "Save the current web page to home");
+
+        TextField urlInput = new TextField();
         ProgressBar progressBar = new ProgressBar(0);
-        hbox.getChildren().addAll(textField, button, progressBar);
-        vbox.getChildren().add(hbox);
+        hbox1.setPadding(new Insets(15, 10, 10, 10));
 
+        hbox1.getChildren().addAll(returnPage, urlInput, followUrl, progressBar);
+        vbox1.getChildren().add(hbox1);
 
         ScrollPane scrollPane = new ScrollPane();
         WebView webView = new WebView();
@@ -56,13 +67,14 @@ public class Browser_Main extends Application{
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
 
-        vbox.getChildren().add(webView);
-        button.setOnAction(handlers.buttonAction(textField, progressBar, webEngine, webView, stage));
+        vbox1.getChildren().add(webView);
 
-        Scene scene = new Scene(vbox);
-        stage.setScene(scene);
-        stage.show();
-        stage.setTitle("Browser");
+        followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
+        urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
+
+        Scene scene = new Scene(vbox1);
+
+        b_methods.setTheScene(stage, scene, 1200, 750, true, "Browser");
 
     }
 

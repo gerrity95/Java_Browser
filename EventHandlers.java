@@ -20,7 +20,9 @@ public class EventHandlers {
 
     static Browser_Methods b_methods = new Browser_Methods();
 
-    public EventHandler<ActionEvent> buttonAction(final TextField textField,
+
+
+    public EventHandler<ActionEvent> followUrlAction(final TextField textField,
                                                   final ProgressBar progressBar,
                                                   final WebEngine webEngine,
                                                   final WebView webView,
@@ -40,6 +42,7 @@ public class EventHandlers {
                         if(newState == Worker.State.SUCCEEDED){
                             System.out.println("Location loaded + " + webEngine.getLocation());
                             String title = webEngine.getTitle();
+                            textField.setText(route);
                             b_methods.defineTitle(title, stage);
                             b_methods.resetProgressBar(0, progressBar);
 
