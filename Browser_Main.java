@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -37,8 +38,10 @@ public class Browser_Main extends Application{
 
         VBox vbox1 = new VBox(10);
         HBox hbox1 = new HBox(10);
+        HBox hbox2 = new HBox(10);
 
         hbox1.setAlignment(Pos.CENTER_LEFT);
+        hbox2.setAlignment(Pos.CENTER_LEFT);
         Button followUrl = new Button();
         Button returnPage = new Button();
         Button savePage = new Button("Save Page");
@@ -50,12 +53,16 @@ public class Browser_Main extends Application{
         b_methods.setHelp(returnPage, "Return to previous page");
         b_methods.setHelp(savePage, "Save the current web page to home");
 
+
         TextField urlInput = new TextField();
         ProgressBar progressBar = new ProgressBar(0);
         hbox1.setPadding(new Insets(15, 10, 10, 10));
+        hbox2.setPadding(new Insets(0, 10, 10, 10));
 
         hbox1.getChildren().addAll(returnPage, urlInput, followUrl, progressBar);
-        vbox1.getChildren().add(hbox1);
+        hbox2.getChildren().add(savePage);
+
+        vbox1.getChildren().addAll(hbox1, hbox2);
 
         ScrollPane scrollPane = new ScrollPane();
         WebView webView = new WebView();
@@ -67,10 +74,13 @@ public class Browser_Main extends Application{
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
 
+
         vbox1.getChildren().add(webView);
+
 
         followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
         urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
+
 
         Scene scene = new Scene(vbox1);
 
