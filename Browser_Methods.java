@@ -5,12 +5,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
+import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
 
 /**
  * Created by Mark on 16/01/2017.
  */
+
 public class Browser_Methods {
 
     public void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
@@ -51,7 +53,12 @@ public class Browser_Methods {
 
     public void currentURL(String s) //Outputs in terminal what the current URL is
     {
-        System.out.println("Route is: " +s);
+        System.out.println("Current URL is: " +s);
+    }
+
+    public void goBack(Button b, WebEngine wb) //Returns to the previous page
+    {
+        b.setOnAction(event -> wb.getHistory().go(-1));
     }
 
 

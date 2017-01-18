@@ -3,6 +3,9 @@
  */
 
 import javafx.application.Application;
+import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -46,6 +50,7 @@ public class Browser_Main extends Application{
         Button savePage = new Button("Save Page");
         TextField urlInput = new TextField();
         ProgressBar progressBar = new ProgressBar(0);
+        urlInput.setPromptText("Enter URL Here");
 
         returnPage.setGraphic(new ImageView(arrowLeft));
         followUrl.setGraphic(new ImageView(arrowRight));
@@ -73,10 +78,11 @@ public class Browser_Main extends Application{
         followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
         urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
 
-        returnPage.setOnAction(handlers.previousURL());
+        b_methods.goBack(returnPage, webEngine);
 
         Scene scene = new Scene(vbox1);
         b_methods.setTheScene(stage, scene, 1200, 750, true, "Browser");
+
 
     }
 
