@@ -15,13 +15,28 @@ import javafx.stage.Stage;
  */
 
 
-
 public class EventHandlers {
 
     static Browser_Methods b_methods = new Browser_Methods();
+    String route; //Currently null, make default value the homepage (when homepage is created)
+
+    public String getRoute() //returnsCurrentURL
+    {
+        return route;
+    }
+
+    //This will get the previous URL that the user has entered so they can return to previous page
+    public EventHandler<ActionEvent> previousURL() {
+        return new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                b_methods.currentURL(route);
+            }
+        };
+    }
 
 
-
+    //This loads the URL that the user has entered into the search bar
     public EventHandler<ActionEvent> followUrlAction(final TextField textField,
                                                   final ProgressBar progressBar,
                                                   final WebEngine webEngine,
@@ -30,7 +45,7 @@ public class EventHandlers {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String route = textField.getText();
+                route = textField.getText();
                 System.out.println("Loading route: " + route); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
 
@@ -47,9 +62,13 @@ public class EventHandlers {
                             b_methods.resetProgressBar(0, progressBar);
 
                         }
-                        else if(newState == Worker.State.FAILED)
+                        else if(newState == Worker.State.FAILED || newState == Worker.State.CANCELLED)
                         {
                             System.out.println("There is a problem here son");
+                        }
+                        else
+                        {
+                            System.out.println(newState);
                         }
                     }
                 });
