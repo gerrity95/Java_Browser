@@ -54,6 +54,7 @@ public class EventHandlers {
             @Override
             public void handle(ActionEvent event) {
                 route = textField.getText();
+                b_methods.currentURL(route);
                 System.out.println("Loading route: " + route); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
 

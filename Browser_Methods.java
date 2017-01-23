@@ -61,5 +61,36 @@ public class Browser_Methods {
         b.setOnAction(event -> wb.getHistory().go(-1));
     }
 
+    public void fixUrl(String s) //This means the user won't have to type in http:// at start of URL
+    {
+        //String s is the url the user has typed in
+
+        /* How it will be done
+
+            Get substring of first seven characters (for http://)
+            Get substring of first eight characters (for https://)
+
+            if the substring2 doesn't equal https://
+            {
+                if the substring1 doesn't equal http://
+                {
+                    add https:// to the beginning of the string
+                }
+                else
+                {
+                    exit with no change
+                }
+            }
+            else
+            {
+                exit with no change
+            }
+
+
+
+
+         */
+    }
+
 
 }
