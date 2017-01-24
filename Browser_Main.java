@@ -3,12 +3,14 @@
  */
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -52,12 +54,14 @@ public class Browser_Main extends Application{
 
         returnPage.setGraphic(new ImageView(arrowLeft));
         followUrl.setGraphic(new ImageView(arrowRight));
+        b_methods.buttonStyling(returnPage);
+        b_methods.buttonStyling(followUrl);
 
         b_methods.setHelp(followUrl, "Go to URL");
         b_methods.setHelp(returnPage, "Return to previous page");
         b_methods.setHelp(savePage, "Save the current web page to home");
 
-        hbox1.getChildren().addAll(returnPage, urlInput, followUrl, savePage);
+        hbox1.getChildren().addAll(returnPage, followUrl, urlInput, savePage);
         hbox2.getChildren().addAll(progressBar);
         vbox1.getChildren().add(hbox1);
 

@@ -1,9 +1,11 @@
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
@@ -61,6 +63,25 @@ class Browser_Methods {
     void goBack(Button b, WebEngine wb) //Returns to the previous page
     {
         b.setOnAction(event -> wb.getHistory().go(-1));
+    }
+
+    void buttonStyling(Button b) //Styles the return and go button
+    {
+        b.setStyle("-fx-background-color: transparent;");
+
+        b.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                b.setStyle("-fx-background-color: #CCCCCC");
+            }
+        });
+
+        b.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                b.setStyle("-fx-background-color: transparent");
+            }
+        });
     }
 
 
