@@ -61,6 +61,11 @@ public class Browser_Methods {
         b.setOnAction(event -> wb.getHistory().go(-1));
     }
 
+    public void specRoute(String r, String s)
+    {
+        r = s;
+    }
+
     public void fixUrl(String s) //This means the user won't have to type in http:// at start of URL
     {
         //String s is the url the user has typed in

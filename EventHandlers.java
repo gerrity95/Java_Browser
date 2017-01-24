@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class EventHandlers {
 
     static Browser_Methods b_methods = new Browser_Methods();
-    String route; //Currently null, make default value the homepage (when homepage is created)
+    String route = "url"; //Currently null, make default value the homepage (when homepage is created)
     String currentUrl; //The current URL of the page that the user is on
 
     public String getRoute() //returnsCurrentURL
@@ -33,17 +33,6 @@ public class EventHandlers {
         return currentUrl;
     }
 
-    //This will get the previous URL that the user has entered so they can return to previous page, at the moment gets the current URL
-    public EventHandler<ActionEvent> previousURL() {
-        return new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                b_methods.currentURL(getCurrentUrl());
-            }
-        };
-    }
-
-
     //This loads the URL that the user has entered into the search bar
     public EventHandler<ActionEvent> followUrlAction(final TextField textField,
                                                   final ProgressBar progressBar,
@@ -53,9 +42,13 @@ public class EventHandlers {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                route = textField.getText();
-                b_methods.currentURL(route);
-                System.out.println("Loading route: " + route); //Outputs in terminal
+                String error = "http://localhost/Browser/error_page.php";
+                if(!getRoute().equalsIgnoreCase(error))
+                {
+                    specRoute(textField.getText());
+                }
+                b_methods.currentURL(getRoute());
+                System.out.println("Loading route: " + getRoute()); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
 
                 webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
@@ -69,11 +62,13 @@ public class EventHandlers {
                             textField.setText(getCurrentUrl());
                             b_methods.defineTitle(title, stage);
                             b_methods.resetProgressBar(0, progressBar);
-
                         }
                         else if(newState == Worker.State.FAILED || newState == Worker.State.CANCELLED)
                         {
                             System.out.println("There is a problem here son");
+                            //loadURL(textField, progressBar, webEngine, webView, stage);
+                            specRoute("http://localhost/Browser/error_page.php");
+                            handle(event);
                         }
                         else
                         {
@@ -82,10 +77,17 @@ public class EventHandlers {
                     }
                 });
 
-                webEngine.load(route); //Loads desired URL on to the page
+                System.out.println(route);
+               webEngine.load(route); //Loads desired URL on to the page
             }
         };
     }
+
+    public void specRoute(String s)
+    {
+        route = s;
+    }
+
 
 
 }
