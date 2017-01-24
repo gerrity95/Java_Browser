@@ -13,20 +13,22 @@ import javafx.stage.Stage;
  * Created by Mark on 16/01/2017.
  */
 
-public class Browser_Methods {
+class Browser_Methods {
 
-    public void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
+    String error = "http://localhost/Browser/error_page.php";
+
+    void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
     {
         stage.setTitle(str);
     }
 
-    public void resetProgressBar(int i, ProgressBar pb)
+    void resetProgressBar(int i, ProgressBar pb)
     {
         pb.progressProperty().unbind();
         pb.setProgress(i);
     }
 
-    public void setTheScene(Stage s, Scene scene, double w, double h, boolean r, String title) //Combines all methods needed to set the scene outputted in the program
+    void setTheScene(Stage s, Scene scene, double w, double h, boolean r, String title) //Combines all methods needed to set the scene outputted in the program
     {
         s.setScene(scene);
         s.setWidth(w);
@@ -36,7 +38,7 @@ public class Browser_Methods {
         s.setTitle(title);
     }
 
-    public void setHelp(Button b, String s) //Gives help text to the buttons
+    void setHelp(Button b, String s) //Gives help text to the buttons
     {
         b.setTooltip(
                 new Tooltip(s)
@@ -44,29 +46,25 @@ public class Browser_Methods {
 
     }
 
-    public void setHBoxAttributes(HBox hb, double spacing, Pos p, Insets i) //Sets all appropriate attributes to a HBox
+    void setHBoxAttributes(HBox hb, double spacing, Pos p, Insets i) //Sets all appropriate attributes to a HBox
     {
         hb.setSpacing(spacing);
         hb.setAlignment(p);
         hb.setPadding(i);
     }
 
-    public void currentURL(String s) //Outputs in terminal what the current URL is
+    void currentURL(String s) //Outputs in terminal what the current URL is
     {
         System.out.println("Current URL is: " +s);
     }
 
-    public void goBack(Button b, WebEngine wb) //Returns to the previous page
+    void goBack(Button b, WebEngine wb) //Returns to the previous page
     {
         b.setOnAction(event -> wb.getHistory().go(-1));
     }
 
-    public void specRoute(String r, String s)
-    {
-        r = s;
-    }
 
-    public void fixUrl(String s) //This means the user won't have to type in http:// at start of URL
+    void fixUrl(String s) //This means the user won't have to type in http:// at start of URL
     {
         //String s is the url the user has typed in
 

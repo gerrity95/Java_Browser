@@ -78,8 +78,8 @@ public class Browser_Main extends Application{
         root.setCenter(vbox1);
         root.setBottom(hbox2);
 
-        followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
-        urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, webView, stage));
+        followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
+        urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
 
         b_methods.goBack(returnPage, webEngine);
 

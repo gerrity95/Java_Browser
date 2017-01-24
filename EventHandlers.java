@@ -3,11 +3,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -17,27 +15,26 @@ import javafx.stage.Stage;
  */
 
 
-public class EventHandlers {
+class EventHandlers {
 
-    static Browser_Methods b_methods = new Browser_Methods();
-    String route = "url"; //Currently null, make default value the homepage (when homepage is created)
-    String currentUrl; //The current URL of the page that the user is on
+    private static Browser_Methods b_methods = new Browser_Methods();
+    private String route = "url"; //Currently url, make default value the homepage (when homepage is created)
+    private String currentUrl; //The current URL of the page that the user is on
 
-    public String getRoute() //returnsCurrentURL
+    private String getRoute() //returnsCurrentURL
     {
         return route;
     }
 
-    public String getCurrentUrl() //returnsCurrentURL
+    private String getCurrentUrl() //returnsCurrentURL
     {
         return currentUrl;
     }
 
     //This loads the URL that the user has entered into the search bar
-    public EventHandler<ActionEvent> followUrlAction(final TextField textField,
+    EventHandler<ActionEvent> followUrlAction(final TextField textField,
                                                   final ProgressBar progressBar,
                                                   final WebEngine webEngine,
-                                                  final WebView webView,
                                                   final Stage stage) {
         return new EventHandler<ActionEvent>() {
             @Override
@@ -70,10 +67,6 @@ public class EventHandlers {
                             specRoute("http://localhost/Browser/error_page.php");
                             handle(event);
                         }
-                        else
-                        {
-                            //System.out.println(newState);
-                        }
                     }
                 });
 
@@ -83,7 +76,7 @@ public class EventHandlers {
         };
     }
 
-    public void specRoute(String s)
+    private void specRoute(String s)
     {
         route = s;
     }
