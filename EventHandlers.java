@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 class EventHandlers {
 
+    String error = "http://localhost/Browser/error_page.php";
+
     private static Browser_Methods b_methods = new Browser_Methods();
     private String route = "url"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
@@ -39,12 +41,12 @@ class EventHandlers {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String error = "http://localhost/Browser/error_page.php";
                 if(!getRoute().equalsIgnoreCase(error))
                 {
                     specRoute(textField.getText());
                 }
                 b_methods.currentURL(getRoute());
+                fixUrl();
                 System.out.println("Loading route: " + getRoute()); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
 
@@ -64,7 +66,7 @@ class EventHandlers {
                         {
                             System.out.println("There is a problem here son");
                             //loadURL(textField, progressBar, webEngine, webView, stage);
-                            specRoute("http://localhost/Browser/error_page.php");
+                            specRoute(error);
                             handle(event);
                         }
                     }
@@ -79,6 +81,29 @@ class EventHandlers {
     private void specRoute(String s)
     {
         route = s;
+    }
+
+    private void fixUrl() //This means the user won't have to type in http:// at start of URL
+    {
+        String http = "http://";
+        String https = "https://";
+
+        String firstCheck = route.substring(0, 7);
+        String secondCheck = route.substring(0, 8);
+
+        if (!secondCheck.equalsIgnoreCase(https))
+        {
+
+            System.out.println("Doesn't equal https");
+
+            if(!firstCheck.equalsIgnoreCase(http))
+            {
+                String s = "https://" + route;
+                System.out.println("Route is now: " + s);
+                route = s;
+            }
+        }
+
     }
 
 
