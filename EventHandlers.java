@@ -28,7 +28,7 @@ class EventHandlers {
         return route;
     }
 
-    private String getCurrentUrl() //returnsCurrentURL
+    String getCurrentUrl() //returnsCurrentURL
     {
         return currentUrl;
     }
@@ -45,7 +45,7 @@ class EventHandlers {
                 {
                     specRoute(textField.getText());
                 }
-                b_methods.currentURL(getRoute());
+                //b_methods.currentURL(getRoute());
                 fixUrl();
                 System.out.println("Loading route: " + getRoute()); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
@@ -74,6 +74,7 @@ class EventHandlers {
 
                 System.out.println(route);
                webEngine.load(route); //Loads desired URL on to the page
+
             }
         };
     }
@@ -103,6 +104,18 @@ class EventHandlers {
                 route = s;
             }
         }
+
+    }
+
+    void reloadUrl(final TextField textField,
+                   final ProgressBar progressBar,
+                   final WebEngine webEngine,
+                   final Stage stage)
+    {
+        String s = getCurrentUrl();
+        System.out.println("Reload: " + s);
+        specRoute(s);
+        followUrlAction(textField, progressBar, webEngine, stage);
 
     }
 

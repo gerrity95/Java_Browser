@@ -36,6 +36,7 @@ public class Browser_Main extends Application{
         //Images for return and go arrows
         Image arrowRight = new Image(getClass().getResourceAsStream("resources/arrow_right.png"));
         Image arrowLeft = new Image(getClass().getResourceAsStream("resources/arrow_left.png"));
+        Image reload = new Image(getClass().getResourceAsStream("resources/reset-icon.png"));
 
         VBox vbox1 = new VBox(10);
         HBox hbox1 = new HBox();
@@ -47,6 +48,7 @@ public class Browser_Main extends Application{
         Button followUrl = new Button();
         Button returnPage = new Button();
         Button savePage = new Button("Save Page");
+        Button reloadPage = new Button();
         TextField urlInput = new TextField();
         ProgressBar progressBar = new ProgressBar(0);
         urlInput.setPromptText("Enter URL Here");
@@ -54,14 +56,17 @@ public class Browser_Main extends Application{
 
         returnPage.setGraphic(new ImageView(arrowLeft));
         followUrl.setGraphic(new ImageView(arrowRight));
+        reloadPage.setGraphic(new ImageView(reload));
         b_methods.buttonStyling(returnPage);
         b_methods.buttonStyling(followUrl);
+        b_methods.buttonStyling(reloadPage);
 
         b_methods.setHelp(followUrl, "Go to URL");
         b_methods.setHelp(returnPage, "Return to previous page");
         b_methods.setHelp(savePage, "Save the current web page to home");
+        b_methods.setHelp(reloadPage, "Reload the current URL");
 
-        hbox1.getChildren().addAll(returnPage, followUrl, urlInput, savePage);
+        hbox1.getChildren().addAll(returnPage, followUrl, urlInput, reloadPage, savePage);
         hbox2.getChildren().addAll(progressBar);
         vbox1.getChildren().add(hbox1);
 
@@ -84,6 +89,8 @@ public class Browser_Main extends Application{
 
         followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
         urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
+        reloadPage.setOnAction(event -> handlers.reloadUrl(urlInput, progressBar, webEngine, stage));
+
 
         b_methods.goBack(returnPage, webEngine);
 
