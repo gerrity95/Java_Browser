@@ -36,7 +36,7 @@ public class Browser_Main extends Application{
         //Images for return and go arrows
         Image arrowRight = new Image(getClass().getResourceAsStream("resources/arrow_right.png"));
         Image arrowLeft = new Image(getClass().getResourceAsStream("resources/arrow_left.png"));
-        Image reload = new Image(getClass().getResourceAsStream("resources/reset-icon.png"));
+        //Image reload = new Image(getClass().getResourceAsStream("resources/reset-icon.png"));
 
         VBox vbox1 = new VBox(10);
         HBox hbox1 = new HBox();
@@ -56,7 +56,7 @@ public class Browser_Main extends Application{
 
         returnPage.setGraphic(new ImageView(arrowLeft));
         followUrl.setGraphic(new ImageView(arrowRight));
-        reloadPage.setGraphic(new ImageView(reload));
+        //reloadPage.setGraphic(new ImageView(reload));
         b_methods.buttonStyling(returnPage);
         b_methods.buttonStyling(followUrl);
         b_methods.buttonStyling(reloadPage);
