@@ -22,6 +22,7 @@ class EventHandlers {
     private static Browser_Methods b_methods = new Browser_Methods();
     private String route = "url"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
+    private boolean urlChecker = true;
 
     private String getRoute() //returnsCurrentURL
     {
@@ -41,11 +42,11 @@ class EventHandlers {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!getRoute().equalsIgnoreCase(error))
-                {
+
+                if(urlChecker) {
                     specRoute(textField.getText());
                 }
-                //b_methods.currentURL(getRoute());
+
                 fixUrl();
                 System.out.println("Loading route: " + getRoute()); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
@@ -61,13 +62,15 @@ class EventHandlers {
                             textField.setText(getCurrentUrl());
                             b_methods.defineTitle(title, stage);
                             b_methods.resetProgressBar(0, progressBar);
+                            urlChecker = true;
                         }
                         else if(newState == Worker.State.FAILED || newState == Worker.State.CANCELLED)
                         {
-                            System.out.println("There is a problem here son");
+                            System.out.println("That URL doesn't seem to exist.");
                             //loadURL(textField, progressBar, webEngine, webView, stage);
                             specRoute(error);
                             handle(event);
+                            urlChecker = false;
                         }
                     }
                 });
