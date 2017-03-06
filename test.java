@@ -2,7 +2,6 @@
  * Created by gerrity95 on 03/02/17.
  */
 
-
 /*
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -26,6 +25,7 @@ public class test extends Application {
         VBox root = new VBox();
         final WebView browser = new WebView();
         final WebEngine webEngine = browser.getEngine();
+        webEngine.load("http://java2s.com");
         Hyperlink hpl = new Hyperlink("java2s.com");
         hpl.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
