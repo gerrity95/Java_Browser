@@ -25,7 +25,7 @@ class Browser_Methods {
         stage.setTitle(str);
     }
 
-    void resetProgressBar(int i, ProgressBar pb)
+    void resetProgressBar(int i, ProgressBar pb) //Sets the progress bar back to nothing when a URL is loaded
     {
         pb.progressProperty().unbind();
         pb.setProgress(i);

@@ -22,6 +22,7 @@ public class Browser_Main extends Application{
 
     private static EventHandlers handlers;
     private static Browser_Methods b_methods;
+    private String startUpUrl = "https://google.com"; //This is the URL that will be loaded on start up, eventually change to homepage
 
     public static void main(String[] args){
          launch();
@@ -36,7 +37,7 @@ public class Browser_Main extends Application{
         //Images for return and go arrows
         Image arrowRight = new Image(getClass().getResourceAsStream("resources/arrow_right.png"));
         Image arrowLeft = new Image(getClass().getResourceAsStream("resources/arrow_left.png"));
-        //Image reload = new Image(getClass().getResourceAsStream("resources/reset-icon.png"));
+        Image reload = new Image(getClass().getResourceAsStream("resources/reset-icon.png"));
 
         VBox vbox1 = new VBox(10);
         HBox hbox1 = new HBox();
@@ -56,7 +57,7 @@ public class Browser_Main extends Application{
 
         returnPage.setGraphic(new ImageView(arrowLeft));
         followUrl.setGraphic(new ImageView(arrowRight));
-        //reloadPage.setGraphic(new ImageView(reload));
+        reloadPage.setGraphic(new ImageView(reload));
         b_methods.buttonStyling(returnPage);
         b_methods.buttonStyling(followUrl);
         b_methods.buttonStyling(reloadPage);
@@ -94,6 +95,7 @@ public class Browser_Main extends Application{
 
         b_methods.goBack(returnPage, webEngine);
 
+        webEngine.load(startUpUrl);
         Scene scene = new Scene(root);
         b_methods.setTheScene(stage, scene, 1200, 700, true, "Browser");
 

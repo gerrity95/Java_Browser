@@ -17,12 +17,12 @@ import javafx.stage.Stage;
 
 class EventHandlers {
 
-    String error = "http://localhost/Browser/error_page.php";
+    String error = "http://localhost/Browser/error_page.php"; //URL to the error page hosted on a local server
 
     private static Browser_Methods b_methods = new Browser_Methods();
     private String route = "url"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
-    private boolean urlChecker = true;
+    private boolean urlChecker = true; //Needed to check if or not the URL entered in the address bar failed
 
     private String getRoute() //returnsCurrentURL
     {
@@ -110,6 +110,7 @@ class EventHandlers {
 
     }
 
+    //Method for reloading the current URL, will be done using a reload button
     void reloadUrl(final TextField textField,
                    final ProgressBar progressBar,
                    final WebEngine webEngine,
@@ -118,7 +119,10 @@ class EventHandlers {
         String s = getCurrentUrl();
         System.out.println("Reload: " + s);
         specRoute(s);
-        followUrlAction(textField, progressBar, webEngine, stage);
+        //followUrlAction(textField, progressBar, webEngine, stage);
+        webEngine.load(s);
+        progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
+        b_methods.resetProgressBar(0, progressBar);
 
     }
 
