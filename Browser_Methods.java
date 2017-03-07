@@ -80,6 +80,9 @@ class Browser_Methods {
         });
     }
 
+    /*
+    Comment for a test commit
+     */
 
 
 }
