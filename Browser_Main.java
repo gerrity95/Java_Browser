@@ -22,7 +22,7 @@ public class Browser_Main extends Application{
 
     private static EventHandlers handlers;
     private static Browser_Methods b_methods;
-    private String startUpUrl = "https://google.com"; //This is the URL that will be loaded on start up, eventually change to homepage
+    private String startUpUrl = "http://localhost/Browser/home_page.php"; //This is the URL that will be loaded on start up, eventually change to homepage
 
     public static void main(String[] args){
          launch();

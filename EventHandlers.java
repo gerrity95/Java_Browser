@@ -20,7 +20,7 @@ class EventHandlers {
     String error = "http://localhost/Browser/error_page.php"; //URL to the error page hosted on a local server
 
     private static Browser_Methods b_methods = new Browser_Methods();
-    private String route = "url"; //Currently url, make default value the homepage (when homepage is created)
+    private String route = "http://localhost/Browser/home_page.php"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
     private boolean urlChecker = true; //Needed to check if or not the URL entered in the address bar failed
 
@@ -75,7 +75,6 @@ class EventHandlers {
                     }
                 });
 
-                System.out.println(route);
                webEngine.load(route); //Loads desired URL on to the page
 
             }
@@ -120,8 +119,8 @@ class EventHandlers {
         System.out.println("Reload: " + s);
         specRoute(s);
         //followUrlAction(textField, progressBar, webEngine, stage);
-        webEngine.load(s);
         progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
+        webEngine.load(s);
         b_methods.resetProgressBar(0, progressBar);
 
     }
