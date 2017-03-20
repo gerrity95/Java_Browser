@@ -1,3 +1,4 @@
+import com.sun.xml.internal.bind.v2.TODO;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -79,5 +80,17 @@ class Browser_Methods {
             }
         });
     }
+
+    void manageStartUp(String url, WebEngine we)
+    {
+        we.load(url);
+        // TODO create this method to deal with what happens when starting up this browser
+    }
+
+    void setUrlDetails()
+    {
+        // TODO create this method that will be used for getting the details about a URL **See EventHandlers - followUrlAction
+    }
+
 
 }

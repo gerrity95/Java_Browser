@@ -17,14 +17,14 @@ import javafx.stage.Stage;
 
 class EventHandlers {
 
-    String error = "http://localhost/Browser/error_page.php"; //URL to the error page hosted on a local server
+    String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
 
     private static Browser_Methods b_methods = new Browser_Methods();
-    private String route = "http://localhost/Browser/home_page.php"; //Currently url, make default value the homepage (when homepage is created)
+    private String route = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
     private boolean urlChecker = true; //Needed to check if or not the URL entered in the address bar failed
 
-    private String getRoute() //returnsCurrentURL
+    public String getRoute() //returnsCurrentURL
     {
         return route;
     }

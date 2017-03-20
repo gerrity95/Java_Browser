@@ -22,7 +22,7 @@ public class Browser_Main extends Application{
 
     private static EventHandlers handlers;
     private static Browser_Methods b_methods;
-    private String startUpUrl = "http://localhost/Browser/home_page.php"; //This is the URL that will be loaded on start up, eventually change to homepage
+    private String startUpUrl = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
 
     public static void main(String[] args){
          launch();
@@ -95,12 +95,17 @@ public class Browser_Main extends Application{
 
         b_methods.goBack(returnPage, webEngine);
 
-        webEngine.load(startUpUrl);
+        setStartUpUrl(handlers.getRoute());
+        b_methods.manageStartUp(startUpUrl, webEngine);
         Scene scene = new Scene(root);
         b_methods.setTheScene(stage, scene, 1200, 700, true, "Browser");
 
 
     }
 
+    private void setStartUpUrl(String url)
+    {
+        startUpUrl = url;
+    }
 
 }
