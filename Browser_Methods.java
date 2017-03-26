@@ -3,9 +3,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebEngine;
@@ -19,7 +17,7 @@ import javafx.stage.Stage;
 class Browser_Methods {
 
     EventHandlers eventHandlers = new EventHandlers();
-    String error = "http://localhost/Browser/error_page.php";
+    String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error";
 
     void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
     {
@@ -40,6 +38,7 @@ class Browser_Methods {
         s.show();
         s.setResizable(r);
         s.setTitle(title);
+
     }
 
     void setHelp(Button b, String s) //Gives help text to the buttons
@@ -66,30 +65,48 @@ class Browser_Methods {
     {
         b.setStyle("-fx-background-color: transparent;");
 
-        b.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                b.setStyle("-fx-background-color: #CCCCCC");
-            }
+        b.setOnMouseEntered(event -> {
+            b.setStyle("-fx-background-color: #CCCCCC");
         });
 
-        b.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                b.setStyle("-fx-background-color: transparent");
-            }
+        b.setOnMouseExited(event -> {
+            b.setStyle("-fx-background-color: transparent");
         });
     }
 
-    void manageStartUp(String url, WebEngine we)
+    void manageStartUp(String url, WebEngine webEngine, TextField textField, ProgressBar progressBar, Stage stage)
     {
-        we.load(url);
+        System.out.println("The URL for the homepage is: " + eventHandlers.getRoute());
+        webEngine.load(url);
+        setUrlDetails(webEngine, textField, progressBar, url, stage);
+
         // TODO create this method to deal with what happens when starting up this browser
     }
 
-    void setUrlDetails()
+    void setUrlDetails(WebEngine webEngine, TextField textField, ProgressBar progressBar, String currentUrl, Stage stage)
     {
         // TODO create this method that will be used for getting the details about a URL **See EventHandlers - followUrlAction
+        System.out.println("Location loaded + " + webEngine.getLocation());
+        currentUrl = webEngine.getLocation();
+        String title = webEngine.getTitle();
+        textField.textProperty().bind(webEngine.locationProperty());
+        defineTitle(title, stage);
+        resetProgressBar(0, progressBar);
+
+    }
+
+
+    //This is just to manage the bindings of the URL so that it matches the current web page in the webview. Fixes the problem related to the homepage
+    void manageUrlBinding(TextField textField, Label label, WebEngine webEngine)
+    {
+        textField.setOnMouseClicked(event -> {
+            System.out.println("Unbind current URL from text box");
+            textField.textProperty().unbind();
+        });
+
+        textField.textProperty().bind(webEngine.locationProperty());
+        label.textProperty().bind(webEngine.locationProperty());
+
     }
 
 

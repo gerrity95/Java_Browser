@@ -17,10 +17,12 @@ import javafx.stage.Stage;
 
 class EventHandlers {
 
-    String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
+    //String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
+    String error = "http://localhost/browser/error_page.php";
 
     private static Browser_Methods b_methods = new Browser_Methods();
-    private String route = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
+    private String route = "http://ec2-34-208-156-234.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
+    //private String route = "http://localhost/browser/home.php"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
     private boolean urlChecker = true; //Needed to check if or not the URL entered in the address bar failed
 
@@ -56,12 +58,8 @@ class EventHandlers {
                     public void changed(ObservableValue<? extends Worker.State> value,
                                         Worker.State oldState, Worker.State newState) {
                         if(newState == Worker.State.SUCCEEDED){
-                            System.out.println("Location loaded + " + webEngine.getLocation());
-                            currentUrl = webEngine.getLocation();
-                            String title = webEngine.getTitle();
-                            textField.setText(getCurrentUrl());
-                            b_methods.defineTitle(title, stage);
-                            b_methods.resetProgressBar(0, progressBar);
+
+                            b_methods.setUrlDetails(webEngine, textField, progressBar, currentUrl, stage);
                             urlChecker = true;
                         }
                         else if(newState == Worker.State.FAILED || newState == Worker.State.CANCELLED)
@@ -76,7 +74,6 @@ class EventHandlers {
                 });
 
                webEngine.load(route); //Loads desired URL on to the page
-
             }
         };
     }

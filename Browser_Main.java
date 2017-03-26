@@ -22,7 +22,8 @@ public class Browser_Main extends Application{
 
     private static EventHandlers handlers;
     private static Browser_Methods b_methods;
-    private String startUpUrl = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
+    private String startUpUrl = "http://ec2-34-208-156-234.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
+    //private String startUpUrl = "http://localhost/browser/home.php"; //This is the URL that will be loaded on start up, eventually change to homepage
 
     public static void main(String[] args){
          launch();
@@ -34,6 +35,8 @@ public class Browser_Main extends Application{
         handlers = new EventHandlers();
         b_methods =new Browser_Methods();
 
+        Label location = new Label();
+
         //Images for return and go arrows
         Image arrowRight = new Image(getClass().getResourceAsStream("resources/arrow_right.png"));
         Image arrowLeft = new Image(getClass().getResourceAsStream("resources/arrow_left.png"));
@@ -44,7 +47,7 @@ public class Browser_Main extends Application{
         HBox hbox2 = new HBox();
 
         b_methods.setHBoxAttributes(hbox1, 10, Pos.CENTER, new Insets(15, 10, 10, 10));
-        b_methods.setHBoxAttributes(hbox2, 10, Pos.BOTTOM_LEFT, new Insets(10, 10, 10, 10));
+        b_methods.setHBoxAttributes(hbox2, 20, Pos.BOTTOM_LEFT, new Insets(10, 10, 10, 10));
 
         Button followUrl = new Button();
         Button returnPage = new Button();
@@ -68,7 +71,7 @@ public class Browser_Main extends Application{
         b_methods.setHelp(reloadPage, "Reload the current URL");
 
         hbox1.getChildren().addAll(returnPage, followUrl, urlInput, reloadPage, savePage);
-        hbox2.getChildren().addAll(progressBar);
+        hbox2.getChildren().addAll(progressBar, location);
         vbox1.getChildren().add(hbox1);
 
         ScrollPane scrollPane = new ScrollPane();
@@ -94,9 +97,11 @@ public class Browser_Main extends Application{
 
 
         b_methods.goBack(returnPage, webEngine);
+        b_methods.manageUrlBinding(urlInput, location, webEngine);
+
 
         setStartUpUrl(handlers.getRoute());
-        b_methods.manageStartUp(startUpUrl, webEngine);
+        b_methods.manageStartUp(startUpUrl, webEngine, urlInput, progressBar, stage);
         Scene scene = new Scene(root);
         b_methods.setTheScene(stage, scene, 1200, 700, true, "Browser");
 
