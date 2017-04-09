@@ -93,6 +93,7 @@ public class Browser_Main extends Application{
 
         followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
         urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
+        savePage.setOnAction(handlers.saveUrl());
         reloadPage.setOnAction(event -> handlers.reloadUrl(urlInput, progressBar, webEngine, stage));
 
 

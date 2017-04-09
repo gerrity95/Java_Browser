@@ -1,13 +1,18 @@
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+
+import java.util.Optional;
 
 
 /**
@@ -76,6 +81,63 @@ class EventHandlers {
                webEngine.load(route); //Loads desired URL on to the page
             }
         };
+    }
+
+    EventHandler<ActionEvent> saveUrl()
+    {
+
+        return new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+                Dialog<Pair<String, String>> dialog = new Dialog<>();
+                dialog.setTitle("Save current URL");
+                dialog.setHeaderText("Save the current URL");
+
+                ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+                dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
+
+                GridPane grid = new GridPane();
+                grid.setHgap(10);
+                grid.setVgap(10);
+                grid.setPadding(new Insets(20, 150, 10, 10));
+
+                TextField title = new TextField();
+                title.setPromptText("Title");
+                TextField url = new TextField();
+                url.setPromptText("URL");
+                TextField category = new TextField();
+                category.setPromptText("Category");
+
+                grid.add(new Label("Title:"), 0, 0);
+                grid.add(title, 1, 0);
+                grid.add(new Label("URL:"), 0, 1);
+                grid.add(url, 1, 1);
+                grid.add(new Label("Category:"), 0, 2);
+                grid.add(category, 1, 2);
+
+                dialog.getDialogPane().setContent(grid);
+                
+                // Request focus on the username field by default.
+                Platform.runLater(() -> title.requestFocus());
+
+                dialog.showAndWait();
+
+                if( (!title.getText().isEmpty()) && (!url.getText().isEmpty()) && (!category.getText().isEmpty()) )
+                {
+                    System.out.print("Title: " + title.getText());
+                    System.out.print(", URL: " + url.getText());
+                    System.out.println(", Category: " + category.getText());
+                }
+                else
+                {
+                    System.out.println("Not all entries filled in.");
+                }
+
+            }
+        };
+
     }
 
     private void specRoute(String s)
