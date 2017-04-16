@@ -10,13 +10,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class Browser_Main extends Application{
 
@@ -106,9 +110,37 @@ public class Browser_Main extends Application{
         Scene scene = new Scene(root);
         b_methods.setTheScene(stage, scene, 1200, 700, true, "Browser");
 
-
+        //Disable context menu and create our own
+        webView.setContextMenuEnabled(false);
+        createContextMenu(webView, webEngine);
     }
 
+    /*
+    * Function to create the little popup menu when user right clicks
+    * Gives user a list to either reload the current page or go back
+    * to the previous web page
+    */
+    private void createContextMenu(WebView webView, WebEngine webEngine) {
+        ContextMenu cm = new ContextMenu();
+        //create reload menu item
+        MenuItem reload = new MenuItem("Reload");
+        reload.setOnAction(e -> webView.getEngine().reload());
+        //create back menu item
+        MenuItem back = new MenuItem("Back");
+        back.setOnAction(event -> webEngine.getHistory().go(-1));
+        //put all the menu items together
+        cm.getItems().addAll(reload, back);
+
+        //Show the little popup when user right clicks, else hide it
+        webView.setOnMousePressed(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                cm.show(webView, event.getScreenX(), event.getScreenY());
+            }
+            else {
+                cm.hide();
+            }
+        });
+    }
     private void setStartUpUrl(String url)
     {
         startUpUrl = url;
