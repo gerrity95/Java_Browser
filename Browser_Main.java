@@ -57,6 +57,7 @@ public class Browser_Main extends Application{
         Button returnPage = new Button();
         Button savePage = new Button("Save Page");
         Button reloadPage = new Button();
+        Button homePage = new Button("Home");  //home button
         TextField urlInput = new TextField();
         ProgressBar progressBar = new ProgressBar(0);
         urlInput.setPromptText("Enter URL Here");
@@ -68,13 +69,15 @@ public class Browser_Main extends Application{
         b_methods.buttonStyling(returnPage);
         b_methods.buttonStyling(followUrl);
         b_methods.buttonStyling(reloadPage);
+        b_methods.buttonStyling(homePage); //style home page button
 
         b_methods.setHelp(followUrl, "Go to URL");
         b_methods.setHelp(returnPage, "Return to previous page");
         b_methods.setHelp(savePage, "Save the current web page to home");
         b_methods.setHelp(reloadPage, "Reload the current URL");
+        b_methods.setHelp(homePage, "Go to homepage"); //add help pop up for home page
 
-        hbox1.getChildren().addAll(returnPage, followUrl, urlInput, reloadPage, savePage);
+        hbox1.getChildren().addAll(homePage, returnPage, followUrl, urlInput, reloadPage, savePage);
         hbox2.getChildren().addAll(progressBar, location);
         vbox1.getChildren().add(hbox1);
 
@@ -99,7 +102,7 @@ public class Browser_Main extends Application{
         urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
         savePage.setOnAction(handlers.saveUrl());
         reloadPage.setOnAction(event -> handlers.reloadUrl(urlInput, progressBar, webEngine, stage));
-
+        homePage.setOnAction(event -> handlers.homePage(progressBar, webEngine)); //Make user go to home page when selected
 
         b_methods.goBack(returnPage, webEngine);
         b_methods.manageUrlBinding(urlInput, location, webEngine);
