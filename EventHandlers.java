@@ -24,6 +24,8 @@ class EventHandlers {
 
     //String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
     String error = "http://localhost/browser/error_page.php";
+    //Store fake homepage for now
+    String home = "https://google.com";
 
     private static Browser_Methods b_methods = new Browser_Methods();
     private String route = "http://ec2-34-208-156-234.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
@@ -184,6 +186,16 @@ class EventHandlers {
 
     }
 
+    /*
+    * Method to return the home page when user clicks Home button
+    * Currently just sends user to google.com as a default page for home
+    */
+    void homePage(final ProgressBar pb, final WebEngine we) {
+        System.out.println("Home page: " + home);
+        pb.progressProperty().bind(we.getLoadWorker().progressProperty());
+        we.load(home); //load the home page
+        b_methods.resetProgressBar(0, pb); //reset progress bar at bottom of page
+    }
 
 
 }
