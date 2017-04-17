@@ -100,7 +100,7 @@ public class Browser_Main extends Application{
 
         followUrl.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
         urlInput.setOnAction(handlers.followUrlAction(urlInput, progressBar, webEngine, stage));
-        savePage.setOnAction(handlers.saveUrl());
+        savePage.setOnAction(handlers.saveUrl(webEngine));
         reloadPage.setOnAction(event -> handlers.reloadUrl(urlInput, progressBar, webEngine, stage));
         homePage.setOnAction(event -> handlers.homePage(progressBar, webEngine)); //Make user go to home page when selected
 

@@ -86,7 +86,7 @@ class EventHandlers {
         };
     }
 
-    EventHandler<ActionEvent> saveUrl()
+    EventHandler<ActionEvent> saveUrl(WebEngine webEngine)
     {
 
         return new EventHandler<ActionEvent>() {
@@ -107,9 +107,9 @@ class EventHandlers {
                 grid.setPadding(new Insets(20, 150, 10, 10));
 
                 TextField title = new TextField();
-                title.setPromptText("Title");
+                title.setText(webEngine.getTitle());
                 TextField url = new TextField();
-                url.setPromptText("URL");
+                url.setText(webEngine.getLocation());
                 TextField category = new TextField();
                 category.setPromptText("Category");
 
