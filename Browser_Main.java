@@ -26,7 +26,7 @@ public class Browser_Main extends Application{
 
     private static EventHandlers handlers;
     private static Browser_Methods b_methods;
-    private String startUpUrl = "http://ec2-34-208-156-234.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
+    private String startUpUrl = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
     //private String startUpUrl = "http://localhost/browser/home.php"; //This is the URL that will be loaded on start up, eventually change to homepage
 
     public static void main(String[] args){

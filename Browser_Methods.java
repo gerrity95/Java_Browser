@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 class Browser_Methods {
 
     EventHandlers eventHandlers = new EventHandlers();
-    String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error";
+    String error = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/error";
 
     void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
     {

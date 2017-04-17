@@ -22,13 +22,14 @@ import java.util.Optional;
 
 class EventHandlers {
 
-    //String error = "http://ec2-35-163-140-194.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
-    String error = "http://localhost/browser/error_page.php";
-    //Store fake homepage for now
-    String home = "https://google.com";
+    String error = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
+    //String error = "http://localhost/browser/error_page.php";
+
+    //String home = "https://google.com";
+    String home = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/";
 
     private static Browser_Methods b_methods = new Browser_Methods();
-    private String route = "http://ec2-34-208-156-234.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
+    private String route = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
     //private String route = "http://localhost/browser/home.php"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
     private boolean urlChecker = true; //Needed to check if or not the URL entered in the address bar failed
