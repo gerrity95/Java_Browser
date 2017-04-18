@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Pair;
 
 import java.util.Optional;
@@ -99,7 +100,8 @@ class EventHandlers {
                 dialog.setHeaderText("Save the current URL");
 
                 ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-                dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
+                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                dialog.getDialogPane().getButtonTypes().addAll(saveButton, cancelButton);
 
                 GridPane grid = new GridPane();
                 grid.setHgap(10);
@@ -122,26 +124,48 @@ class EventHandlers {
 
                 dialog.getDialogPane().setContent(grid);
                 
-                // Request focus on the username field by default.
+                // Request focus on the title field by default.
                 Platform.runLater(() -> title.requestFocus());
 
-                dialog.showAndWait();
+
+                Optional<Pair<String, String>> result = dialog.showAndWait();
+
+
+                /*
+                Below statement gets the value of which ever button is pressed,
+                Next to do is get which ever button is pressed, whether it be the save button or the cancel button and run the remaining output accordingly,
+                Try and get a substring of the results string to differentiate which button is pressed
+                 */
+                
+                if (result.isPresent())
+                {
+                    String r = result.toString();
+                    System.out.println("result is " + r);
+                }
 
                 if( (!title.getText().isEmpty()) && (!url.getText().isEmpty()) && (!category.getText().isEmpty()) )
                 {
                     System.out.print("Title: " + title.getText());
                     System.out.print(", URL: " + url.getText());
                     System.out.println(", Category: " + category.getText());
+
+                    //TODO Method for adding to database
+
                 }
                 else
                 {
                     System.out.println("Not all entries filled in.");
+                    b_methods.alertForSavePrompt();
+                    //saveUrl(webEngine);
                 }
+
+                System.out.println(saveButton.getButtonData());
 
             }
         };
 
     }
+
 
     private void specRoute(String s)
     {
