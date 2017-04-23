@@ -2,22 +2,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
-
-/**
- * Created by Mark on 16/01/2017.
- */
-
 class Browser_Methods {
 
-    EventHandlers eventHandlers = new EventHandlers();
+    private EventHandlers eventHandlers = new EventHandlers();
     String error = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/error";
 
-    void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
+    private void defineTitle(String str, Stage stage) //Gets the title of the current web page and makes it the title of the browser
     {
         stage.setTitle(str);
     }
@@ -63,29 +57,25 @@ class Browser_Methods {
     {
         b.setStyle("-fx-background-color: transparent;");
 
-        b.setOnMouseEntered(event -> {
-            b.setStyle("-fx-background-color: #CCCCCC");
-        });
+        b.setOnMouseEntered(event -> b.setStyle("-fx-background-color: #CCCCCC"));
 
-        b.setOnMouseExited(event -> {
-            b.setStyle("-fx-background-color: transparent");
-        });
+        b.setOnMouseExited(event -> b.setStyle("-fx-background-color: transparent"));
     }
 
     void manageStartUp(String url, WebEngine webEngine, TextField textField, ProgressBar progressBar, Stage stage)
     {
         System.out.println("The URL for the homepage is: " + eventHandlers.getRoute());
         webEngine.load(url);
-        setUrlDetails(webEngine, textField, progressBar, url, stage);
+        setUrlDetails(webEngine, textField, progressBar, stage);
 
         // TODO create this method to deal with what happens when starting up this browser
     }
 
-    void setUrlDetails(WebEngine webEngine, TextField textField, ProgressBar progressBar, String currentUrl, Stage stage)
+    void setUrlDetails(WebEngine webEngine, TextField textField, ProgressBar progressBar, Stage stage)
     {
         // TODO create this method that will be used for getting the details about a URL **See EventHandlers - followUrlAction
         System.out.println("Location loaded + " + webEngine.getLocation());
-        currentUrl = webEngine.getLocation();
+        String currentUrl = webEngine.getLocation();
         String title = webEngine.getTitle();
         textField.textProperty().bind(webEngine.locationProperty());
         defineTitle(title, stage);
@@ -112,7 +102,7 @@ class Browser_Methods {
      void alertBox(String title, String header, String body)
     {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        //alert.setTitle("title");
+        //alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(body);
         alert.show();

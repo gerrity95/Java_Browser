@@ -8,9 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Pair;
 
 import java.sql.Connection;
@@ -24,11 +22,11 @@ import java.util.Optional;
 
 class EventHandlers {
 
-    String error = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
+    private String error = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/error"; //URL to the error page hosted on a local server
     //String error = "http://localhost/browser/error_page.php";
 
     //String home = "https://google.com";
-    String home = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/";
+    private String home = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/";
 
     private static Browser_Methods b_methods = new Browser_Methods();
     private static DB_Connection db_connection = new DB_Connection();
@@ -38,12 +36,12 @@ class EventHandlers {
     private String currentUrl; //The current URL of the page that the user is on
     private boolean urlChecker = true; //Needed to check if or not the URL entered in the address bar failed
 
-    public String getRoute() //returnsCurrentURL
+    String getRoute() //returnsCurrentURL
     {
         return route;
     }
 
-    String getCurrentUrl() //returnsCurrentURL
+    private String getCurrentUrl() //returnsCurrentURL
     {
         return currentUrl;
     }
@@ -65,23 +63,19 @@ class EventHandlers {
                 System.out.println("Loading route: " + getRoute()); //Outputs in terminal
                 progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty()); //Progress bar
 
-                webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Worker.State> value,
-                                        Worker.State oldState, Worker.State newState) {
-                        if(newState == Worker.State.SUCCEEDED){
+                webEngine.getLoadWorker().stateProperty().addListener((value, oldState, newState) -> {
+                    if(newState == Worker.State.SUCCEEDED){
 
-                            b_methods.setUrlDetails(webEngine, textField, progressBar, currentUrl, stage);
-                            urlChecker = true;
-                        }
-                        else if(newState == Worker.State.FAILED || newState == Worker.State.CANCELLED)
-                        {
-                            System.out.println("That URL doesn't seem to exist.");
-                            //loadURL(textField, progressBar, webEngine, webView, stage);
-                            specRoute(error);
-                            handle(event);
-                            urlChecker = false;
-                        }
+                        b_methods.setUrlDetails(webEngine, textField, progressBar, stage);
+                        urlChecker = true;
+                    }
+                    else if(newState == Worker.State.FAILED || newState == Worker.State.CANCELLED)
+                    {
+                        System.out.println("That URL doesn't seem to exist.");
+                        //loadURL(textField, progressBar, webEngine, webView, stage);
+                        specRoute(error);
+                        handle(event);
+                        urlChecker = false;
                     }
                 });
 
@@ -93,82 +87,78 @@ class EventHandlers {
     EventHandler<ActionEvent> saveUrl(WebEngine webEngine)
     {
 
-        return new EventHandler<ActionEvent>() {
+        return event -> {
 
-            @Override
-            public void handle(ActionEvent event) {
+            String saveOrCancel = null;
 
-                String saveOrCancel = null;
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("Save current URL");
+            dialog.setHeaderText("Save the current URL");
 
-                Dialog<Pair<String, String>> dialog = new Dialog<>();
-                dialog.setTitle("Save current URL");
-                dialog.setHeaderText("Save the current URL");
+            ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(saveButton, cancelButton);
 
-                ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                dialog.getDialogPane().getButtonTypes().addAll(saveButton, cancelButton);
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
 
-                GridPane grid = new GridPane();
-                grid.setHgap(10);
-                grid.setVgap(10);
-                grid.setPadding(new Insets(20, 150, 10, 10));
+            TextField title = new TextField();
+            title.setText(webEngine.getTitle());
+            TextField url = new TextField();
+            url.setText(webEngine.getLocation());
+            TextField category = new TextField();
+            category.setPromptText("Category");
 
-                TextField title = new TextField();
-                title.setText(webEngine.getTitle());
-                TextField url = new TextField();
-                url.setText(webEngine.getLocation());
-                TextField category = new TextField();
-                category.setPromptText("Category");
+            grid.add(new Label("Title:"), 0, 0);
+            grid.add(title, 1, 0);
+            grid.add(new Label("URL:"), 0, 1);
+            grid.add(url, 1, 1);
+            grid.add(new Label("Category:"), 0, 2);
+            grid.add(category, 1, 2);
 
-                grid.add(new Label("Title:"), 0, 0);
-                grid.add(title, 1, 0);
-                grid.add(new Label("URL:"), 0, 1);
-                grid.add(url, 1, 1);
-                grid.add(new Label("Category:"), 0, 2);
-                grid.add(category, 1, 2);
+            dialog.getDialogPane().setContent(grid);
 
-                dialog.getDialogPane().setContent(grid);
-                
-                // Request focus on the title field by default.
-                Platform.runLater(() -> title.requestFocus());
+            // Request focus on the title field by default.
+            Platform.runLater(title::requestFocus);
 
 
-                Optional<Pair<String, String>> result = dialog.showAndWait();
+            Optional<Pair<String, String>> result = dialog.showAndWait();
 
-                /*
-                Below statement gets the value of which ever button is pressed,
-                 */
+            /*
+            Below statement gets the value of which ever button is pressed,
+             */
 
-                if (result.isPresent()) //Hacky way of figuring out which button is pressed
-                {
-                    String r = result.toString(); //Variable to get the value of which button is pressed, either save or cancel.
-                    saveOrCancel = r.substring(21, 27); //Variable of substring
-                    System.out.println("Button pressed is " + r);
-                }
+            if (result.isPresent()) //Hacky way of figuring out which button is pressed
+            {
+                String r = result.toString(); //Variable to get the value of which button is pressed, either save or cancel.
+                saveOrCancel = r.substring(21, 27); //Variable of substring
+                System.out.println("Button pressed is " + r);
+            }
 
-                if( (!title.getText().isEmpty()) && (!url.getText().isEmpty()) && (!category.getText().isEmpty()) )
-                {
-                    System.out.print("Title: " + title.getText());
-                    System.out.print(", URL: " + url.getText());
-                    System.out.println(", Category: " + category.getText());
+            if( (!title.getText().isEmpty()) && (!url.getText().isEmpty()) && (!category.getText().isEmpty()) )
+            {
+                System.out.print("Title: " + title.getText());
+                System.out.print(", URL: " + url.getText());
+                System.out.println(", Category: " + category.getText());
 
-                    db_connection.bookmarkUrl(connection, title.getText(), url.getText(), category.getText());
+                db_connection.bookmarkUrl(connection, title.getText(), url.getText(), category.getText());
 
-
-                }
-                else
-                {
-                    if (saveOrCancel.equalsIgnoreCase("text=S"))
-                    {
-                        System.out.println("Not all entries filled in.");
-                        b_methods.alertBox("", "Warning", "Not all fields have been filled in.");
-                        //saveUrl(webEngine);
-                    }
-                }
-
-                System.out.println(saveButton.getButtonData());
 
             }
+            else
+            {
+                if (saveOrCancel.equalsIgnoreCase("text=S"))
+                {
+                    System.out.println("Not all entries filled in.");
+                    b_methods.alertBox("", "Warning", "Not all fields have been filled in.");
+                    //saveUrl(webEngine);
+                }
+            }
+
+            System.out.println(saveButton.getButtonData());
+
         };
 
     }

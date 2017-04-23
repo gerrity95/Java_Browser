@@ -1,15 +1,10 @@
-
-/**
- * Created by Mark on 17/04/2017.
- */
-
 import java.sql.*;
 
 public class DB_Connection {
 
-    Browser_Methods browser_methods = new Browser_Methods();
+    private Browser_Methods browser_methods = new Browser_Methods();
 
-    public void connect(Connection connection)
+    void connect(Connection connection)
     {
         try {
             connection = DriverManager.
@@ -18,16 +13,15 @@ public class DB_Connection {
             System.out.println("Connection Failed!:\n" + e.getMessage());
         }
 
-        if (connection != null) {
-            System.out.println("SUCCESS!!!! You made it, take control of your database now!");
-        } else {
+        if (connection != null) System.out.println("SUCCESS!!!! You made it, take control of your database now!");
+        else {
             System.out.println("FAILURE! Failed to make connection!");
         }
 
     }
 
     //Method for bookmarking the URL
-    public void bookmarkUrl(Connection connection, String title, String url, String category)
+    void bookmarkUrl(Connection connection, String title, String url, String category)
     {
 
         try {
@@ -56,7 +50,7 @@ public class DB_Connection {
         System.out.println("DB connection closed.");
         browser_methods.alertBox("", "Success!", "The URL has been successfully added to your homepage");
     }
-    
+
 }
 
 
