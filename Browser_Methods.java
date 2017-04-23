@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.TODO;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -110,13 +108,13 @@ class Browser_Methods {
     }
 
     //This will alert the user if they have not fully filled in the details for the bookmarks button
-    void alertForSavePrompt()
+
+     void alertBox(String title, String header, String body)
     {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        //alert.setTitle("Warning");
-        alert.setHeaderText("Warning");
-        String s ="You must have all entries filled to add the URL to your bookmarks. ";
-        alert.setContentText(s);
+        //alert.setTitle("title");
+        alert.setHeaderText(header);
+        alert.setContentText(body);
         alert.show();
     }
 

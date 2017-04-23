@@ -1,3 +1,4 @@
+
 /**
  * Created by Mark on 17/04/2017.
  */
@@ -6,6 +7,7 @@ import java.sql.*;
 
 public class DB_Connection {
 
+    Browser_Methods browser_methods = new Browser_Methods();
 
     public void connect(Connection connection)
     {
@@ -24,7 +26,37 @@ public class DB_Connection {
 
     }
 
+    //Method for bookmarking the URL
+    public void bookmarkUrl(Connection connection, String title, String url, String category)
+    {
 
+        try {
+            connection = DriverManager.
+                   getConnection("jdbc:mysql://" + "ec2-54-71-144-122.us-west-2.compute.amazonaws.com" + ":" + "3306" + "/" + "javabrowser", "db_user", "aikenstreet_9941"); //User access is what is allowing access to the Database now
+
+
+            String insertQuery = "insert into homepage_links (title, url, category)" + " VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, url);
+            preparedStatement.setString(3, category);
+            //The above preparedStatement is used to assign the values in the insert query
+
+            preparedStatement.execute();
+
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Bookmarking error...");
+            System.err.println(e.getMessage());
+        }
+
+        System.out.println("Successfully added to the database");
+        System.out.println("DB connection closed.");
+        browser_methods.alertBox("", "Success!", "The URL has been successfully added to your homepage");
+    }
+    
 }
 
 

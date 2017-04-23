@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+import java.sql.Connection;
 import java.util.Optional;
 
 
@@ -30,6 +31,8 @@ class EventHandlers {
     String home = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/";
 
     private static Browser_Methods b_methods = new Browser_Methods();
+    private static DB_Connection db_connection = new DB_Connection();
+    Connection connection;
     private String route = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/"; //Currently url, make default value the homepage (when homepage is created)
     //private String route = "http://localhost/browser/home.php"; //Currently url, make default value the homepage (when homepage is created)
     private String currentUrl; //The current URL of the page that the user is on
@@ -95,6 +98,8 @@ class EventHandlers {
             @Override
             public void handle(ActionEvent event) {
 
+                String saveOrCancel = null;
+
                 Dialog<Pair<String, String>> dialog = new Dialog<>();
                 dialog.setTitle("Save current URL");
                 dialog.setHeaderText("Save the current URL");
@@ -130,17 +135,15 @@ class EventHandlers {
 
                 Optional<Pair<String, String>> result = dialog.showAndWait();
 
-
                 /*
                 Below statement gets the value of which ever button is pressed,
-                Next to do is get which ever button is pressed, whether it be the save button or the cancel button and run the remaining output accordingly,
-                Try and get a substring of the results string to differentiate which button is pressed
                  */
-                
-                if (result.isPresent())
+
+                if (result.isPresent()) //Hacky way of figuring out which button is pressed
                 {
-                    String r = result.toString();
-                    System.out.println("result is " + r);
+                    String r = result.toString(); //Variable to get the value of which button is pressed, either save or cancel.
+                    saveOrCancel = r.substring(21, 27); //Variable of substring
+                    System.out.println("Button pressed is " + r);
                 }
 
                 if( (!title.getText().isEmpty()) && (!url.getText().isEmpty()) && (!category.getText().isEmpty()) )
@@ -149,14 +152,18 @@ class EventHandlers {
                     System.out.print(", URL: " + url.getText());
                     System.out.println(", Category: " + category.getText());
 
-                    //TODO Method for adding to database
+                    db_connection.bookmarkUrl(connection, title.getText(), url.getText(), category.getText());
+
 
                 }
                 else
                 {
-                    System.out.println("Not all entries filled in.");
-                    b_methods.alertForSavePrompt();
-                    //saveUrl(webEngine);
+                    if (saveOrCancel.equalsIgnoreCase("text=S"))
+                    {
+                        System.out.println("Not all entries filled in.");
+                        b_methods.alertBox("", "Warning", "Not all fields have been filled in.");
+                        //saveUrl(webEngine);
+                    }
                 }
 
                 System.out.println(saveButton.getButtonData());
