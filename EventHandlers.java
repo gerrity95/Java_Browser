@@ -172,6 +172,7 @@ class EventHandlers {
     }
 
     //Method for reloading the current URL, will be done using a reload button
+    //Is this method really needed? Just changed to use followURL method and is working the same way
     void reloadUrl(final TextField textField,
                    final ProgressBar progressBar,
                    final WebEngine webEngine,
