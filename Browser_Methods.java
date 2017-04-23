@@ -109,5 +109,15 @@ class Browser_Methods {
 
     }
 
+    //This will alert the user if they have not fully filled in the details for the bookmarks button
+    void alertForSavePrompt()
+    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //alert.setTitle("Warning");
+        alert.setHeaderText("Warning");
+        String s ="You must have all entries filled to add the URL to your bookmarks. ";
+        alert.setContentText(s);
+        alert.show();
+    }
 
 }
