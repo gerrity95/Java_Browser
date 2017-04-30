@@ -21,8 +21,8 @@ public class Browser_Main extends Application{
 
     private static EventHandlers handlers;
     private static Browser_Methods b_methods;
-    private String startUpUrl = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
-    //private String startUpUrl = "http://localhost/browser/home.php"; //This is the URL that will be loaded on start up, eventually change to homepage
+    //private String startUpUrl = "http://ec2-54-71-144-122.us-west-2.compute.amazonaws.com/homepage/"; //This is the URL that will be loaded on start up, eventually change to homepage
+    private String startUpUrl = "http://google.com";
 
     public static void main(String[] args){
          launch();
@@ -119,7 +119,7 @@ public class Browser_Main extends Application{
     * Gives user a list to either reload the current page or go back
     * to the previous web page
     */
-    private void createContextMenu(WebView webView, WebEngine webEngine) {
+     void createContextMenu(WebView webView, WebEngine webEngine) {
         ContextMenu cm = new ContextMenu();
         //create reload menu item
         MenuItem reload = new MenuItem("Reload");
@@ -140,7 +140,7 @@ public class Browser_Main extends Application{
             }
         });
     }
-    private void setStartUpUrl(String url)
+    void setStartUpUrl(String url)
     {
         startUpUrl = url;
     }

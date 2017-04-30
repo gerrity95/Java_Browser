@@ -6,11 +6,18 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.web.WebView?>
 
+<?import javafx.scene.control.TextField?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WebController">
+
     <center>
         <TabPane>
             <tabs>
                 <Tab text="PDF test">
+                    <content>
+                        <WebView fx:id="pdf" minHeight="-1.0" minWidth="-1.0" />
+                    </content>
+                </Tab>
+                <Tab text="Second Tab">
                     <content>
                         <WebView fx:id="web" minHeight="-1.0" minWidth="-1.0" />
                     </content>
