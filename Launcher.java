@@ -35,6 +35,7 @@ import java.util.Base64;
     public class Launcher extends Application {
 
     String myUrl = "https://files.zenhub.io/5504f669a564ab7a3147b4d1";
+    //String myUrl = "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf";
 
     //String file = "/mnt/Data/Documents/exam_papers/project_management/16CA491.pdf";
     String file = "F:/Documents/Exam Papers/15CA358(1).pdf";
@@ -72,6 +73,7 @@ import java.util.Base64;
             ProgressBar progressBar = new ProgressBar(0);
             urlInput.setPromptText("Enter URL Here");
             urlInput.setPrefWidth(800);
+            urlInput.setText(myUrl);
 
             returnPage.setGraphic(new ImageView(arrowLeft));
             followUrl.setGraphic(new ImageView(arrowRight));
@@ -110,8 +112,9 @@ import java.util.Base64;
 
             Scene scene = new Scene(root);
             b_methods.setTheScene(stage, scene, 1200, 700, true, "PDF Viewer");
-            loadPdf(webView, webEngine);
+            loadPdf(urlInput, webView, webEngine);
 
+            followUrl.setOnAction(event -> loadPdf(urlInput, webView, webEngine));
 
             //Disable context menu and create our own
             webView.setContextMenuEnabled(false);
@@ -119,7 +122,7 @@ import java.util.Base64;
 
         }
 
-    void loadPdf(WebView webview, WebEngine engine)
+    void loadPdf(TextField textField, WebView webview, WebEngine engine)
     {
         engine = webview.getEngine();
         String url = getClass().getResource("/resources/web/viewer.html").toExternalForm();
@@ -139,78 +142,35 @@ import java.util.Base64;
                     window.setMember("java", new JSLogListener());
                     finalEngine.executeScript("console.log = function(message){ java.log(message); };");
 
+                    String urlToLookup = textField.getText();
+                    System.out.println("URL IS " + urlToLookup);
                     InputStream stream = null;
 
                     // this pdf file will be opened on application startup
                     if (newValue == Worker.State.SUCCEEDED) {
 
-                        /*
-                        try {
-                            // readFileToByteArray() comes from commons-io library
-                            byte[] data = FileUtils.readFileToByteArray(new File(myUrl));
-                            String base64 = Base64.getEncoder().encodeToString(data);
-                            // call JS function from Java code
-                            finalEngine.executeScript("openFileFromBase64('" + base64 + "')");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        */
-
-                        try {
-
-                            try {
-                                stream = new URL(myUrl).openStream();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            //I use IOUtils from org.​apache.​commons.​io
-                            byte[] data = IOUtils.toByteArray(stream);
-                            //Base64 from java.util
-                            String base64 = Base64.getEncoder().encodeToString(data);
-                            //This must be ran on FXApplicationThread
-                            webview.getEngine().executeScript("openFileFromBase64('" + base64 + "')");
-
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }finally {
-                            if (stream != null) {
-                                try {
-                                    stream.close();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                          }
+                        readUrl(stream, urlToLookup, webview);
 
                     }
                 });
 
     }
 
-}
-
-
-   /*
-    public void main(String[] args) {
-
-        WebView webView = new WebView();
-        WebEngine engine = webView.getEngine();
-        //Change the path according to yours.
-        String url = getClass().getResource("pdfjs/web/viewer.html").toExternalForm();
-//We add our stylesheet.
-        engine.setUserStyleSheetLocation(getClass().getResource("pdfjs/web.css").toExternalForm());
-        engine.setJavaScriptEnabled(true);
-        engine.load(url);
-
-        InputStream stream = null;
+    void readUrl(InputStream stream, String url, WebView webview)
+    {
         try {
-            stream = myUrl.openStream();
+
+            try {
+                stream = new URL(url).openStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             //I use IOUtils from org.​apache.​commons.​io
             byte[] data = IOUtils.toByteArray(stream);
             //Base64 from java.util
             String base64 = Base64.getEncoder().encodeToString(data);
             //This must be ran on FXApplicationThread
-            webView.getEngine().executeScript("openFileFromBase64('" + base64 + "')");
+            webview.getEngine().executeScript("openFileFromBase64('" + base64 + "')");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -223,8 +183,20 @@ import java.util.Base64;
                 }
             }
         }
-
-
     }
 
-    */
+    void readFile(String file, WebEngine finalEngine)
+    {
+        try {
+            // readFileToByteArray() comes from commons-io library
+            byte[] data = FileUtils.readFileToByteArray(new File(file));
+            String base64 = Base64.getEncoder().encodeToString(data);
+            // call JS function from Java code
+            finalEngine.executeScript("openFileFromBase64('" + base64 + "')");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
